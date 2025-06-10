@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Volim te Toni - Heart</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vmin;
+      background-color: #ffc0cb; /* baby pink */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: relative;
+      width: 20vmin;
+      height: 32.5vmin;
+      animation: pulse 1.2s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20vmin;
+      height: 18vmin;
+      background: #e60039;
+      border-radius: 20vmin 20vmin 0 0;
+      top: -3vmin;
+      left: 0;
+      transform-origin: bottom center;
+    }
+
+    .heart::before {
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    .heart::after {
+      left: 0;
+      transform: translateX(0) rotate(45deg);
+    }
+
+    .heart > div {
+      position: absolute;
+      width: 29vmin;
+      height: 19vmin;
+      background: #e60039;
+      bottom: 1vmin;
+      left: -4.5vmin;
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+    }
+
+    .message {
+      margin-top: 3vh;
+      font-size: 5vmin;
+      color: #800020;
+      font-weight: 600;
+      user-select: none;
+      text-shadow: 0 0 6px #ff94a6;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #b3002d);
+      }
+      50% {
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 15px #ff4d6d);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .mini-heart {
+      position: absolute;
+      width: 2vmin;
+      height: 2vmin;
+      background: #e60039;
+      transform: rotate(-45deg);
+      animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .mini-heart::before,
+    .mini-heart::after {
+      content: "";
+      position: absolute;
+      width: 2vmin;
+      height: 2vmin;
+      background: #e60039;
+      border-radius: 50%;
+    }
+
+    .mini-heart::before {
+      top: -1vmin;
+      left: 0;
+    }
+
+    .mini-heart::after {
+      top: 0;
+      left: 1vmin;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(-45deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-10px, -150px) scale(1.5) rotate(-45deg);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .message {
+        font-size: 7vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart" id="mainHeart">
+    <div></div>
+  </div>
+  <div class="message">Volim te Toni</div>
+
+  <script>
+  const heart = document.getElementById('mainHeart');
+
+  heart.addEventListener('click', () => {
+    const heartRect = heart.getBoundingClientRect();
+
+    for (let i = 0; i < 5; i++) {
+      const miniHeart = document.createElement('div');
+      miniHeart.classList.add('mini-heart');
+
+      const xOffset = (Math.random() - 0.5) * 100;
+      const yOffset = Math.random() * -100;
+
+      miniHeart.style.left = `${heartRect.left + heartRect.width / 2}px`;
+      miniHeart.style.top = `${heartRect.top + heartRect.height / 10-20}px`;
+      miniHeart.style.transform = `translate(${xOffset}px, ${yOffset}px) rotate(-45deg)`;
+
+      document.body.appendChild(miniHeart);
+
+      setTimeout(() => {
+        miniHeart.remove();
+      }, 2000);
+    }
+  });
+</script>
+
+</body>
+</html>
+
